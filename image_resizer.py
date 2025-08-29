@@ -15,7 +15,7 @@ from typing import Iterable
 from PIL import Image
 from tkinter import Tk, filedialog
 
-RATIO = 5 / 4  # Desired aspect ratio (width / height)
+RATIO = 4 / 5  # Desired aspect ratio (width / height)
 OUTPUT_DIR_NAME = "edited"  # Folder where processed images are stored
 
 
