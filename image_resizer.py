@@ -3,7 +3,8 @@
 This script opens a file dialog to allow users to select one or more image
 files. Each image is placed on a white background to match a 5:4 (width:height)
 ratio without cropping the original content. The processed images are saved in
-the same directory as the source files with an ``_edited`` suffix.
+a dedicated ``edited`` subfolder next to the source files with an ``_edited``
+suffix.
 """
 
 from __future__ import annotations
@@ -15,6 +16,7 @@ from PIL import Image
 from tkinter import Tk, filedialog
 
 RATIO = 5 / 4  # Desired aspect ratio (width / height)
+OUTPUT_DIR_NAME = "edited"  # Folder where processed images are stored
 
 
 def resize_with_padding(img: Image.Image, ratio: float = RATIO) -> Image.Image:
@@ -40,14 +42,16 @@ def resize_with_padding(img: Image.Image, ratio: float = RATIO) -> Image.Image:
 def process_images(paths: Iterable[Path]) -> None:
     """Process each image in *paths* and save a resized copy.
 
-    The output file is saved in the same directory with ``_edited`` appended to
-    the base name.
+    The output file is saved in an ``edited`` subfolder next to the source file
+    with ``_edited`` appended to the base name.
     """
     for path in paths:
         try:
             with Image.open(path) as img:
                 edited = resize_with_padding(img)
-                out_path = path.with_name(path.stem + "_edited" + path.suffix)
+                out_dir = path.parent / OUTPUT_DIR_NAME
+                out_dir.mkdir(exist_ok=True)
+                out_path = out_dir / (path.stem + "_edited" + path.suffix)
                 edited.save(out_path)
                 print(f"Saved {out_path}")
         except Exception as exc:  # pragma: no cover - best effort logging
