@@ -6,6 +6,17 @@ images, each of which is placed on a white canvas so that the final result has
 the correct ratio without cropping. The processed files are written to an
 ``edited`` subdirectory with an ``_edited`` suffix added to the original name.
 
+## Requirements
+
+- Python 3.7 or newer
+- [Pillow](https://pypi.org/project/Pillow/) for image processing
+- ``tkinter`` for the file-selection dialog (bundled with most Python
+  installations)
+
+```bash
+pip install Pillow
+```
+
 ## Usage
 
 ```bash
